@@ -1,10 +1,14 @@
-# Web Boilerplate 
+# 🧩 Shape of America 🧩
 
-My boilerplate setup for creative web projects.
+[defenderofbasic.github.io/shape-of-america](https://defenderofbasic.github.io/shape-of-america/)
 
-Install yarn: https://yarnpkg.com/.
+Source data for this game is from FEC campaign donations, see: https://github.com/DefenderOfBasic/shape-of-america/issues/1. 
 
-Then run `yarn` to install dependencies and `yarn dev` to run. It'll be running on [localhost:3000](http://localhost:3000/).
+TODO: link to real-time responses data
 
-The app will autoreload when any changes are made. 
+Todo
 
+- make the quiz/swipe interface
+- save to localstorage so you don't repeat things
+- "your results so far" page?
+    your percentile?

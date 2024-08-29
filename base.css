@@ -119,3 +119,39 @@ blockquote cite:before {
 .subtitle a {
   text-decoration: none;
 }
+
+
+.button {
+  background-color: #f980ff;
+  border: black;
+  color: #2d182e;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  outline: none;
+}
+
+.button:hover {
+  background-color: #f14ff9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #2d182e;
+
+}
+
+.button:active {
+  background-color: #2573a7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
+}
+
+.gradient-text {
+  background: linear-gradient(to bottom, red, blue);
+  -webkit-background-clip: text;
+  color: transparent;
+}

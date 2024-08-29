@@ -4,24 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="./base.css">
-    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
     <title>Shape of America</title>
+    <style>
+      #title {
+        margin-bottom:0px;
+      }
+      #subtitle {
+        margin-top: 0px;
+        color:gray;
+      }
+    </style>
   </head>
   <body>
     <div class="article">
-      <h1 class="centered-text">
-        Shape of America
+      <h1 class="centered-text" id="title">
+       🧩 Shape of America 🧩
       </h1>
-      <!-- <p class="centered-text faded-text subtitle">
-        <a href="https://omarshehata.me/" target="_blank">Omar Shehata &mdash; August 2024</a>
-      </p> -->
+      <p class="centered-text faded-text" id="subtitle">
+        Democratic Vs. Republican Jobs
+      </p>
 
       <p>
-        Hello 1 2 3
+        The US is very polarized. <span style="color: #d91717;">Truck drivers</span> are overwhelmingly republican, <span style="color: #1f5fe9;">software engineers</span> are majority democrat.
       </p>
-    
-      
-    </div>
+      <p>
+        This is a game where you guess <span style="color: #d91717;">right</span>, <span style="color: #1f5fe9;">left</span>, or <span class="gradient-text">down (mixed)</span> on jobs in the American economy. 
+      </p>
+      <p style="font-size: 15px;">
+        <span id="responses"></span>. All responses are recorded & dedicated to public domain. By playing (1) you check & update your mental model of America and (2) we collectively give shape to what we think this country looks like, vs what it actually is. 
+      </p>
+
+      <center>
+        <a class="button" href="game.html">
+          Start
+        </a>
+      </center>
+
+    <p style="color:gray; font-size:15px;">
+      <a href="https://github.com/DefenderOfBasic/shape-of-america/">See GitHub repo</a> for data & source code.
+    </p>
+
     <script type="module" src="./src/index.js"></script>
+    </div>
   </body>
 </html>

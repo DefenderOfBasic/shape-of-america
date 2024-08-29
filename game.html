@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="./base.css">
+	<link rel="stylesheet" type="text/css" href="./game.css">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
+	<title>Shape of America</title>
+	<style>
+	  
+	</style>
+  </head>
+  <body>
+	<div class="top-bar">
+		<div id="top-bar-left">
+			<!-- <p>accuracy: 64%</p> -->
+		</div>
+		<div id="top-bar-right">
+			<a href="/results">📈 your results</a>
+			<a href="/">🔙 home</a>
+		</div>
+    </div>
+	<div id="game-container">
+		<h1 id="job-title">
+			(loading..)
+		</h1>
+		<div id="result" class="container" style="display: none;">
+			<div id="result-answer"></div>
+		</div>
+		<div id="question" class="container">
+			<!-- Div for Left and Right Buttons -->
+			<div class="horizontal-buttons">
+				<button id="republican-btn" class="button">republican</button>
+				<button id="democrat-btn" class="button">democrat</button>
+			</div>
+			
+			<!-- Div for Bottom Center Button -->
+			<div class="bottom-button">
+				<div style="text-align: center;">
+					<p style="font-size: 12px; color:gray">(split is 60/40 or less)</p>
+					<button id="mixed-btn" class="button">mixed</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="module" src="./src/game.js"></script>
+
+  </body>
+</html>

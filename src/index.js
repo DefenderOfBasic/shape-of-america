@@ -1,16 +1,21 @@
-const canvas = document.querySelector("#canvas")
-const ctx = canvas.getContext("2d");
-canvas.width = 700
-canvas.height = 300
+import { createClient } from '@supabase/supabase-js'
 
-const center = { x: canvas.width / 2, y: canvas.height / 2 };
-const radius = 70;
-ctx.beginPath()
-ctx.arc(center.x - 200, center.y, radius, 0, 2 * Math.PI, false)
-ctx.fillStyle = "#ff9900"
-ctx.fill()
+const supabaseUrl = 'https://pkgxnfwivssmtjkgtmco.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBrZ3huZndpdnNzbXRqa2d0bWNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQ4ODY1NDAsImV4cCI6MjA0MDQ2MjU0MH0.j6OvsbNHBPhorsj7romHyvdvcXPi3vrD0xsaODz-5zM'
+const supabase = createClient(supabaseUrl, supabaseKey)
 
-ctx.beginPath()
-ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI, false)
-ctx.fillStyle = "#ff9900"
-ctx.fill()
+const { data, error, status, count } = await supabase
+  .from('user_guesses')
+  .select('user_id', { count: 'exact' })
+
+const numberOfGuesses = new Intl.NumberFormat().format(data.length)
+const userMap = {}
+for (let i = 0; i < data.length; i++) {
+    userMap[data[i].user_id] = true
+}
+const numberOfUsers = new Intl.NumberFormat().format(Object.keys(userMap).length)
+const responsesElement = document.querySelector("#responses")
+if (!error) {
+    responsesElement.innerHTML = `${numberOfGuesses} responses so far from ${numberOfUsers} users`
+    responsesElement.style.display = 'inline-block'
+}

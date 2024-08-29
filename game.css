@@ -1,0 +1,107 @@
+#job-title {
+    text-align: center;
+}
+
+.red {
+    color: #f04747;
+}
+.blue {
+    color: #5280e4;
+}
+.mixed {
+    color: linear-gradient(to right, #f04747, #5280e4);
+}
+
+#republican-btn {
+    background: #f04747;
+    float:right;
+}
+
+#democrat-btn {
+    background: #5280e4;
+    float: left;
+}
+
+#mixed-btn {
+    background: linear-gradient(to right, #f04747, #5280e4);
+}
+
+.button {
+    margin: 10px;
+    font-size: 28px!important;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    padding:0px;
+}
+#game-container{    
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    overflow-y: hidden;
+    justify-content: center;
+}
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .horizontal-buttons {
+    display: flex;
+    justify-content: space-around; /* Space between the left and right buttons */
+    padding: 20px;
+  }
+
+  .bottom-button {
+    display: flex;
+    justify-content: center; /* Center the bottom button horizontally */
+    /* margin-top: auto;  */
+    padding-bottom: 20px; /* Adds some space at the bottom */
+  }
+
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color:white;
+  }
+  .button:hover {
+    color:white;
+  }
+
+#result {
+    justify-content: center;
+    flex-direction: row;
+}
+
+#result-answer {
+    max-width:450px;
+}
+
+.centered {
+    text-align: center;
+}
+
+/* top bar */
+.top-bar {
+    color: rgb(141, 141, 141);
+    font-size:12px;
+    background-color: #f4f4f4;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+.top-bar a {
+    color: rgb(141, 141, 141);
+    text-decoration: none;
+    margin-left: 1rem;
+}
+.top-bar a:hover {
+    text-decoration: underline;
+}
