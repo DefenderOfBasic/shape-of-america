@@ -19,3 +19,10 @@ if (!error) {
     responsesElement.innerHTML = `${numberOfGuesses} responses so far from ${numberOfUsers} users`
     responsesElement.style.display = 'inline-block'
 }
+
+// const results = await supabase
+//   .from('job_metrics')
+//   .select('*')
+//   .eq('job_title', 'realtor')
+
+//   console.log(results)

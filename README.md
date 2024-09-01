@@ -8,7 +8,6 @@ TODO: link to real-time responses data
 
 Todo
 
-- make the quiz/swipe interface
-- save to localstorage so you don't repeat things
+- compute your accuracy/global accuracy
 - "your results so far" page?
     your percentile?

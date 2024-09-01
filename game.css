@@ -95,7 +95,7 @@ body {
     background-color: #f4f4f4;
     padding: 0.5rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 .top-bar a {
     color: rgb(141, 141, 141);
@@ -104,4 +104,7 @@ body {
 }
 .top-bar a:hover {
     text-decoration: underline;
+}
+#top-bar-left p {
+    margin:0px;
 }

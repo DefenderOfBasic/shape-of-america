@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./base.css">
+    <link rel="stylesheet" type="text/css" href="./results.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
+    <title>Shape of America</title>
+    <style>
+    </style>
+  </head>
+  <body>
+    <div class="article">
+      <h1>
+       Your results
+      </h1>
+
+      <p id="results-summary">
+        
+      </p>
+      <p>
+        There are 519 job titles in the dataset.
+      </p>
+
+      <div class="table-container">
+        <table id="results-table-container">
+            <thead>
+                <tr>
+                    <th data-index=0>Job</th>
+                    <th data-index=1>Your guess</th>
+                    <th data-index=2>Answer</th>
+                </tr>
+            </thead>
+            <tbody id="results-table">
+            </tbody>
+        </table>
+    </div>
+      
+      <h1>Global results</h1>
+
+      <p id="global-results-summary">
+        
+      </p>
+      
+      <div class="table-container">
+        <table id="global-results-table-container">
+            <thead>
+                <tr>
+                    <th data-index=0>Job</th>
+                    <th data-index=1>Democrat</th>
+                    <th data-index=2>Republican</th>
+                    <th data-index=2>Mixed</th>
+                    <th data-index=3>Accuracy</th>
+                </tr>
+            </thead>
+            <tbody id="global-results-table">
+                <td>Artist</td>
+                <td>23✅</td>
+                <td>54</td>
+                <td>7</td>
+                <td>57%</td>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="module" src="./src/results.js"></script>
+    </div>
+  </body>
+</html>
