@@ -21,3 +21,17 @@ export async function computeGlobalAccuracy(supabase) {
 
     return globalAccuracy
 }
+
+export function getPoliticalType(percentBlue) {
+    const THRESHOLD = 55
+    let correctAnswer = ''
+    if (percentBlue < THRESHOLD && percentBlue > (100 - THRESHOLD)) {
+        correctAnswer = 'mixed'
+    } else if (percentBlue < 50) {
+        correctAnswer = 'republican'
+    } else {
+        correctAnswer = 'democrat'
+    }
+
+    return correctAnswer
+}

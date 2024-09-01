@@ -1,16 +1,11 @@
 import { data } from './data'
+import { getPoliticalType } from './util'
 
 const jobsMap = {}
 for (let i = 0; i < data.length; i++) {
     const job_title = data[i][0]
     let percentBlue = Math.round(parseFloat(data[i][1]))
-    let correctAnswer = 'democrat'
-    if (percentBlue < 60 && percentBlue > 40) {
-        correctAnswer = 'mixed'
-    } else if (percentBlue < 50) {
-        correctAnswer = 'republican'
-    }
-
+    let correctAnswer = getPoliticalType(percentBlue)
     jobsMap[job_title] = correctAnswer
 }
 
@@ -78,7 +73,8 @@ function sortTable(columnIndex, asc = true) {
     }
 }
 
-document.querySelectorAll('th').forEach(th => th.addEventListener('click', ((e) => {
+document.querySelector("#results-table-container").querySelectorAll('th')
+.forEach(th => th.addEventListener('click', ((e) => {
     if (window.column_toggled == undefined) window.column_toggled = {}
     const idx = e.target.dataset.index
     window.column_toggled[idx] = !window.column_toggled[idx]

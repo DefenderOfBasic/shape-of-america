@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { data } from './data'
-import { computeLocalAccuracy, computeGlobalAccuracy } from './util'
+import { computeLocalAccuracy, 
+    computeGlobalAccuracy, getPoliticalType } from './util'
 
 // reset url to index, so if user refreshes they start over
 history.pushState({},"","/")
@@ -35,12 +36,7 @@ async function submitResult(choice) {
     if (choice == 'republican') className = 'red'
     else if (choice == 'mixed') className = 'mixed'
 
-    let correctAnswer = 'democrat'
-    if (percentBlue < 60 && percentBlue > 40) {
-        correctAnswer = 'mixed'
-    } else if (percentBlue < 50) {
-        correctAnswer = 'republican'
-    }
+    let correctAnswer = getPoliticalType(percentBlue)
     const isCorrect = choice === correctAnswer
 
     storedResults.guesses.push({ correct: isCorrect, job_title: job[0], guess: choice  })
