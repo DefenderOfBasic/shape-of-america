@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
-import { data } from './data'
+// import { data } from './data'
+import { filtered_data } from './augmented_data'
 import { computeLocalAccuracy, 
-    computeGlobalAccuracy, getPoliticalType } from './util'
+    computeGlobalAccuracy, getPoliticalType,shuffle } from './util'
 
 // reset url to index, so if user refreshes they start over
 history.pushState({},"","/")
@@ -12,24 +13,37 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 if (!localStorage.getItem('user_id')) {
     localStorage.setItem('user_id', self.crypto.randomUUID())
-    localStorage.setItem('job_index', 0)
     localStorage.setItem('results', JSON.stringify({ guesses: [] }))
 }
+const jobs_data = []
+// remove the jobs they have already guessed, then shuffle
+const results = JSON.parse(localStorage.getItem('results')).guesses 
+const guessedMap = {}
+results.forEach(item => guessedMap[item.job_title] = true)
+for (let i = 0; i <filtered_data.length; i++) {
+    if (guessedMap[filtered_data[i].job]) {
+        console.log(`Skipping ${filtered_data[i].job}, already guessed`)
+        continue
+    }
+    jobs_data.push(filtered_data[i])
+}
+shuffle(jobs_data)
+
 const USER_ID = localStorage.getItem('user_id')
-let JOB_INDEX = localStorage.getItem('job_index')
+let JOB_INDEX = 0
 const storedResults = JSON.parse(localStorage.getItem('results'))
 displayLocalAccuracy()
 
 const jobTitleElement = document.querySelector("#job-title")
-let job = data[JOB_INDEX]
-jobTitleElement.innerText = job[0]
+let job = jobs_data[JOB_INDEX]
+jobTitleElement.innerText = job.job
 
 async function submitResult(choice) {
     document.querySelector("#question").style.display = 'none'
     document.querySelector("#job-title").style.display = 'none'
     document.querySelector("#result").style.display = 'flex'
 
-    let percentBlue = Math.round(parseFloat(job[1]))
+    let percentBlue = Math.round(parseFloat(job.percentBlue))
     let percentRed = Math.round(100 - percentBlue)
 
     let className = 'blue'
@@ -39,13 +53,13 @@ async function submitResult(choice) {
     let correctAnswer = getPoliticalType(percentBlue)
     const isCorrect = choice === correctAnswer
 
-    storedResults.guesses.push({ correct: isCorrect, job_title: job[0], guess: choice  })
+    storedResults.guesses.push({ correct: isCorrect, job_title: job.job, guess: choice  })
 
     let yourAnswer = isCorrect ? '' : `You answered: <span class="${className}">${choice}</span>. `
     
     let symbol = isCorrect ? '✅' : '❌'
     let answer = `<h1 class="centered">${symbol}</h1> 
-    <p class="centered">${yourAnswer}${job[0]} is ${correctAnswer} (${percentBlue}% democrat, ${percentRed}% republican)</p>
+    <p class="centered">${yourAnswer}${job.job} is ${correctAnswer} (${percentBlue}% democrat, ${percentRed}% republican)</p>
     <p class="centered" style="color:gray; font-size:10px;">
         (according to campaign contributions by job title, from the FEC)
     </p>
@@ -60,7 +74,7 @@ async function submitResult(choice) {
     const { error } = await supabase
         .from('user_guesses')
         .insert({ user_id: USER_ID, 
-                job_title: job[0].toLowerCase(), 
+                job_title: job.job.toLowerCase(), 
                 guess: choice, 
                 correct: isCorrect })
 
@@ -73,9 +87,8 @@ async function submitResult(choice) {
         loadingText.style.display = 'none'
     }
     JOB_INDEX++
-    localStorage.setItem('job_index', JOB_INDEX)
-    job = data[JOB_INDEX]
-    jobTitleElement.innerText = job[0]
+    job = jobs_data[JOB_INDEX]
+    jobTitleElement.innerText = job.job
 
     localStorage.setItem('results', JSON.stringify(storedResults))
     displayLocalAccuracy()

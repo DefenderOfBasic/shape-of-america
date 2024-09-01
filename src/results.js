@@ -9,6 +9,10 @@ for (let i = 0; i < data.length; i++) {
     jobsMap[job_title] = correctAnswer
 }
 
+document.querySelector("#clear-btn").onclick = () => {
+    localStorage.clear()
+    window.location.href = '/'
+}
 
 
 const resultsSummaryElement = document.querySelector("#results-summary")
