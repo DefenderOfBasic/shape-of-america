@@ -22,10 +22,14 @@ export async function computeGlobalAccuracy(supabase) {
     return globalAccuracy
 }
 
+export const MIXED_THRESHOLD = 55
+
+
+// confusing: Senior Program Associate, Tax Manager, 
+// small summary, plus salary? 
 export function getPoliticalType(percentBlue) {
-    const THRESHOLD = 55
     let correctAnswer = ''
-    if (percentBlue < THRESHOLD && percentBlue > (100 - THRESHOLD)) {
+    if (percentBlue <= MIXED_THRESHOLD && percentBlue >= (100 - MIXED_THRESHOLD)) {
         correctAnswer = 'mixed'
     } else if (percentBlue < 50) {
         correctAnswer = 'republican'

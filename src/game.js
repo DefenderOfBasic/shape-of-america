@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 // import { data } from './data'
-import { filtered_data } from './augmented_data'
+import { filtered_data } from './data/augmented_data'
 import { computeLocalAccuracy, 
     computeGlobalAccuracy, getPoliticalType,shuffle } from './util'
 
