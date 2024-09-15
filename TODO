@@ -1,4 +1,5 @@
 Todo
 
 - compute tally on server in the other table when you add a guess
+- compute global accuracy
 - route for fetching results for all

@@ -1,6 +1,6 @@
 # Data
 
-Extracted from: https://www.zippia.com/advice/democratic-vs-republican-jobs/
+Extracted from: [https://www.zippia.com/advice/democratic-vs-republican-jobs/](https://www.zippia.com/advice/democratic-vs-republican-jobs/#jobs-by-democratic-vs-republican)
 
 > We analyzed data from the FEC on campaign contributions by job title.
 
