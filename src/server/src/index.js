@@ -17,7 +17,8 @@ const functionsForPaths = {
 	'/user-data': getUserData, 
 	'/user-count': getUsersCount,
 	'/insert-guess': insertGuess,
-	'/global-accuracy': globalAccuracy
+	'/global-accuracy': globalAccuracy,
+	'/global-tally': globalTally
 }
 
 const corsHeaders = {
@@ -37,6 +38,15 @@ export default {
 		return new Response('');
 	},
 };
+
+async function globalTally(request, env, ctx) {
+	const { results } = 
+	await env.DB.prepare(`
+	SELECT * FROM job_data`).all();
+
+	return Response.json(results, { headers: corsHeaders })
+}
+
 
 async function globalAccuracy(request, env, ctx) {
 	const results = await env.DB.prepare(
@@ -67,6 +77,17 @@ async function insertGuess(request, env, ctx) {
 		VALUES (?1, ?2, ?3, ?4)`)
 	.bind(user_id, job_title, guess, correct).run();
 
+	// keep a tally of how many global have guessed this
+	const valuesMap = { 'democrat': '1, 0, 0', 'republican': '0, 1, 0', 'mixed': '0, 0, 1'}
+	await env.DB.prepare(`
+	INSERT INTO job_data (job_title, democrat, republican, mixed)
+	VALUES (?, ${valuesMap[guess]})
+	ON CONFLICT (job_title) 
+	DO UPDATE SET 
+		democrat = job_data.democrat + EXCLUDED.democrat,
+		republican = job_data.republican + EXCLUDED.republican,
+		mixed = job_data.mixed + EXCLUDED.mixed;`).bind( job_title ).run();
+
 	return new Response("done", { headers: corsHeaders })
 }
 
@@ -89,5 +110,4 @@ FROM user_guesses;
 		`).first();
 	return Response.json(results, { headers: corsHeaders })
 }
-
 

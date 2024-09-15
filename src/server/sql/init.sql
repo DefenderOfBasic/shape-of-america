@@ -17,3 +17,13 @@ CREATE TABLE IF NOT EXISTS job_metrics (
     republican_count INTEGER,
     mixed_count INTEGER 
 );
+
+DROP TABLE IF EXISTS job_data;
+CREATE TABLE job_data (
+    id INTEGER PRIMARY KEY,
+    job_title VARCHAR,
+    democrat INTEGER,
+    republican INTEGER,
+    mixed INTEGER,
+    CONSTRAINT unique_job_title UNIQUE (job_title)
+);

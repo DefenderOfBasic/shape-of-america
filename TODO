@@ -1,5 +1,6 @@
 Todo
 
-- compute tally on server in the other table when you add a guess
-- compute global accuracy
-- route for fetching results for all
+- make table for results
+- link in github to the live results
+
+- make a <meta> image for display links

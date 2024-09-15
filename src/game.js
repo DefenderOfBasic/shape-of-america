@@ -110,7 +110,7 @@ async function submitResult(choice) {
     document.querySelector("#next-btn").onclick = () => {      
         
         if (isDone) {
-            window.location.href = '/results.html'
+            window.location.href = 'results.html'
             return
         }
         
