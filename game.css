@@ -70,10 +70,10 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    color:white;
+    color:white!important; /* vite css re-order bug */
   }
   .button:hover {
-    color:white;
+    color:white!important;
   }
 
 #result {
