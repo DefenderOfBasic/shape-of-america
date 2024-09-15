@@ -91,11 +91,11 @@ async function getGlobalResults() {
 
     const trNode = document.createElement("tr")
     trNode.innerHTML = 
-        `<td>${job_title}</td>
+        `<td>${job_title}</br><span class="small-text">(${answer})</span></td>
+        <td>${accuracy}%</td>
         <td>${democrat}</td>
         <td>${republican}</td>
-        <td>${mixed}</td>
-        <td>${accuracy}%</td>`
+        <td>${mixed}</td>`
     resultsTable.appendChild(trNode)
   }
 
