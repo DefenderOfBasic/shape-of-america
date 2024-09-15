@@ -17,6 +17,11 @@ document.querySelector("#clear-btn").onclick = () => {
     }
 }
 
+function getSummary(results, filterSearchTerm) {
+  const filtered = results.guesses.filter(g => g.answer == filterSearchTerm)
+  const correct_num = filtered.filter(g => g.correct).length
+  return { total: filtered.length, correct: correct_num}
+}
 
 const resultsSummaryElement = document.querySelector("#results-summary")
 if (localStorage.getItem('results')) {
@@ -25,7 +30,6 @@ if (localStorage.getItem('results')) {
     const correct_num = results.guesses.filter(g => g.correct).length
     const accuracy = Math.round(((correct_num) / (guesses.length)) * 100)
 
-    resultsSummaryElement.textContent = `Accuracy: ${accuracy}%. Total answered: ${guesses.length}. Correct: ${correct_num}`
     const resultsTable = document.querySelector("#results-table")
     for (let i = 0; i < guesses.length; i++) {
         const currentGuess = guesses[i]
@@ -45,6 +49,19 @@ if (localStorage.getItem('results')) {
         <td class=${className}>${correctAnswer}</td>`
         resultsTable.appendChild(trNode)
     }
+
+    const democratResults = getSummary(results, 'democrat')
+    const repulicanResults = getSummary(results, 'republican')
+    const mixedResults = getSummary(results, 'mixed')
+
+    resultsSummaryElement.innerHTML = 
+    `Accuracy: ${accuracy}%. Total answered: ${guesses.length}. Correct: ${correct_num}
+    <ul>
+      <li>Democrat: (${democratResults.correct}/${democratResults.total}) correct</li>
+      <li>Republican: (${repulicanResults.correct}/${repulicanResults.total}) correct</li>
+      <li>Mixed: (${mixedResults.correct}/${mixedResults.total}) correct</li>
+    </ul>
+    `
 
     document.querySelector("#download-data-btn").onclick = () => {
       const csvData = jsonToCSV(guesses);
@@ -108,8 +125,8 @@ function sortTable(columnIndex, table, asc = true) {
 
       for (i = 1; i < rows.length - 1; i++) {
         shouldSwitch = false;
-        x = rows[i].getElementsByTagName("td")[columnIndex + 1];
-        y = rows[i + 1].getElementsByTagName("td")[columnIndex + 1];
+        x = rows[i].getElementsByTagName("td")[columnIndex];
+        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
 
         if (!asc) {
             let z = x 

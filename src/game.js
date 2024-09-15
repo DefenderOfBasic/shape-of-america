@@ -100,7 +100,6 @@ async function submitResult(choice) {
         job = unanswered_job_data[JOB_INDEX]
         document.querySelector("#job-text").innerText = job.job
         document.querySelector("#count-text").innerText = `${job_data.length - unanswered_job_data.length + JOB_INDEX} / ${job_data.length}`
-
     }
 
     localStorage.setItem('results', JSON.stringify(storedResults))
@@ -108,12 +107,10 @@ async function submitResult(choice) {
     
     document.querySelector("#next-btn").style.display = 'block'
     document.querySelector("#next-btn").onclick = () => {      
-        
         if (isDone) {
             window.location.href = 'results.html'
             return
         }
-        
 
         document.querySelector("#question").style.display = 'flex'
         document.querySelector("#job-title").style.display = 'block'
