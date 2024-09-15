@@ -8,7 +8,7 @@ function isProd() {
 }
 
 const LOCAL_URL = 'http://127.0.0.1:8787/'
-const PROD_URL = 'https://shape-of-america-worker.defenderofbasic.workers.dev'
+const PROD_URL = 'https://shape-of-america-worker.defenderofbasic.workers.dev/'
 export const SERVER_URL = 
  isProd() ? PROD_URL : LOCAL_URL
 
