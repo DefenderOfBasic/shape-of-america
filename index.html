@@ -28,14 +28,14 @@
       </p>
 
       <p>
-        The US is very polarized. <span style="color: #d91717;">Truck drivers</span> are overwhelmingly republican, <span style="color: #1f5fe9;">software engineers</span> are majority democrat.
+        The US is politically polarized. <span style="color: #d91717;">Truck drivers</span> are overwhelmingly republican, <span style="color: #1f5fe9;">software engineers</span> are majority democrat.
       </p>
       <p>
         This is a game where you guess <span style="color: #d91717;">right</span>, <span style="color: #1f5fe9;">left</span>, or <span class="gradient-text">down (mixed)</span> on jobs in the American economy. 
       </p>
       <!-- TODO: data is from campaign donations? -->
       <p style="font-size: 15px;">
-        <span id="responses"></span>. All responses are recorded & dedicated to public domain. By playing (1) you check & update your mental model of America and (2) we collectively give shape to what we think this country looks like, vs what it actually is. 
+        <span id="responses"></span>. All responses are recorded & data is publicly accessible.
       </p>
 
       <center>
@@ -47,6 +47,27 @@
     <p style="color:gray; font-size:15px;">
       <a href="https://github.com/DefenderOfBasic/shape-of-america/">See GitHub repo</a> for data & source code.
     </p>
+
+    <div id="your-data-container" style="display: none;">
+      <hr/>
+      <h1>
+        Your data
+      </h1>
+
+      <p id="results-text"></p>
+
+      <a href="/results.html">📈 go to results page</a>
+
+      <h1>
+        Infinite mode
+      </h1>
+
+      <p>
+        The main game has 21 hand-picked jobs. This mode has all 497. 
+      </p>
+
+      <a href="/game.html?infinite=true">Play infinite mode</a>
+    </div>
 
     <script type="module" src="./src/index.js"></script>
     </div>

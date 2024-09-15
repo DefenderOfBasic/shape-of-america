@@ -1,4 +1,4 @@
-import { full_data } from '../src/data/augmented_data.js'
+import { full_data, getLLMExpectation } from '../src/data/augmented_data.js'
 import { MIXED_THRESHOLD, getPoliticalType } from '../src/util.js'
 
 full_data.sort((A, B) => {
@@ -76,37 +76,3 @@ console.log({
 // Mason, Roofer, Trucker, Construction Superintendent
 // console.log(getLLMExpectation({ expected: 'republican', actual: 'republican'}).map(item => [item.job, item.percentBlue]))
 
-
-/////////////////HELPER FUNCTIONS//////////////////////////////////
-
-// for example:
-//  getLLMExpectation({ expected: 'democrat', actual: 'republican'})
-// returns all jobs that the LLM expects is democrat but is republican
-function getLLMExpectation({ expected, actual }) {
-    // get `actual` jobs
-    const targetJobs = full_data.filter(item => {
-        // include 'mixed' as an answer
-        const jobType = getPoliticalType(item.percentBlue)
-        if (jobType == actual) {
-            return true
-        }
-        return false
-    })
-    // find all where LLM thinks it's: `expected`
-    // the LLM never guesses mixed
-    const final = []
-    for (let item of targetJobs) {
-        if (expected == 'republican' && 
-            item.red_score > item.blue_score
-        ) {
-            final.push(item)
-        }
-        if (expected == 'democrat' && 
-            item.red_score < item.blue_score
-        ) {
-            final.push(item)
-        }
-    }
-
-    return final
-}

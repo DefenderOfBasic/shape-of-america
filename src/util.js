@@ -1,22 +1,29 @@
+import { data } from './data/data.js'
+
+function isProd() {
+    if (import.meta.env) {
+        return import.meta.env.PROD
+    }
+    return false
+}
+
+const LOCAL_URL = 'http://127.0.0.1:8787/'
+const PROD_URL = 'https://shape-of-america-worker.defenderofbasic.workers.dev'
+export const SERVER_URL = 
+ isProd() ? PROD_URL : LOCAL_URL
+
+
 export function computeLocalAccuracy() {
     const results = JSON.parse(localStorage.getItem('results'))
     const accuracy = results.guesses.filter(g => g.correct).length / results.guesses.length
     return accuracy
 }
 
-export async function computeGlobalAccuracy(supabase) {
-    const correctResult = await supabase
-        .from('user_guesses')
-        .select('*', { count: 'exact', head: true })
-        .eq('correct', true)
-    
-    const incorrectResult = await supabase
-        .from('user_guesses')
-        .select('*', { count: 'exact', head: true })
-        .eq('correct', false)
+export async function computeGlobalAccuracy() {
+    const { correct, incorrect } = await (await fetch(`${SERVER_URL}global-accuracy`)).json()
 
-    const globalAccuracy = correctResult.count / (correctResult.count + incorrectResult.count)
-    if (!globalAccuracy) return 
+    const globalAccuracy = correct / (correct + incorrect)
+    if (globalAccuracy == undefined || isNaN(globalAccuracy)) return 
     document.querySelector("#global-accuracy").innerText = Math.round(globalAccuracy * 100)
 
     return globalAccuracy
@@ -56,3 +63,11 @@ export function shuffle(array) {
     }
   }
   
+
+export const jobsMap = {}
+for (let i = 0; i < data.length; i++) {
+    const job_title = data[i][0].toLowerCase()
+    let percentBlue = Math.round(parseFloat(data[i][1]))
+    let correctAnswer = getPoliticalType(percentBlue)
+    jobsMap[job_title] = correctAnswer
+}

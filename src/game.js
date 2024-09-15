@@ -1,42 +1,47 @@
-import { createClient } from '@supabase/supabase-js'
-// import { data } from './data'
-import { filtered_data } from './data/augmented_data'
+import { SERVER_URL } from './util'
+import job_data_subset from './data/final.json'
+import { full_data } from './data/augmented_data'
+
 import { computeLocalAccuracy, 
     computeGlobalAccuracy, getPoliticalType,shuffle } from './util'
 
-// reset url to index, so if user refreshes they start over
-history.pushState({},"","/")
-
-const supabaseUrl = 'https://pkgxnfwivssmtjkgtmco.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBrZ3huZndpdnNzbXRqa2d0bWNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQ4ODY1NDAsImV4cCI6MjA0MDQ2MjU0MH0.j6OvsbNHBPhorsj7romHyvdvcXPi3vrD0xsaODz-5zM'
-const supabase = createClient(supabaseUrl, supabaseKey)
+let job_data = job_data_subset  
+const searchParams = new URLSearchParams(window.location.search);
+if (searchParams.has('infinite')) {
+    job_data = full_data
+}
 
 if (!localStorage.getItem('user_id')) {
     localStorage.setItem('user_id', self.crypto.randomUUID())
     localStorage.setItem('results', JSON.stringify({ guesses: [] }))
 }
-const jobs_data = []
+const unanswered_job_data = []
 // remove the jobs they have already guessed, then shuffle
 const results = JSON.parse(localStorage.getItem('results')).guesses 
 const guessedMap = {}
 results.forEach(item => guessedMap[item.job_title] = true)
-for (let i = 0; i <filtered_data.length; i++) {
-    if (guessedMap[filtered_data[i].job]) {
-        console.log(`Skipping ${filtered_data[i].job}, already guessed`)
+for (let i = 0; i <job_data.length; i++) {
+    if (guessedMap[job_data[i].job]) {
+        console.log(`Skipping ${job_data[i].job}, already guessed`)
         continue
     }
-    jobs_data.push(filtered_data[i])
+    unanswered_job_data.push(job_data[i])
 }
-shuffle(jobs_data)
+shuffle(unanswered_job_data)
 
 const USER_ID = localStorage.getItem('user_id')
 let JOB_INDEX = 0
 const storedResults = JSON.parse(localStorage.getItem('results'))
 displayLocalAccuracy()
 
-const jobTitleElement = document.querySelector("#job-title")
-let job = jobs_data[JOB_INDEX]
-jobTitleElement.innerText = job.job
+if (unanswered_job_data.length == 0) {
+    // game is done! going to infinite mode
+    window.location.href = '/gotoinfinite.html'
+}
+
+let job = unanswered_job_data[JOB_INDEX]
+document.querySelector("#job-text").innerText = job.job
+document.querySelector("#count-text").innerText = `${job_data.length - unanswered_job_data.length} / ${job_data.length}`
 
 async function submitResult(choice) {
     document.querySelector("#question").style.display = 'none'
@@ -71,30 +76,44 @@ async function submitResult(choice) {
     document.querySelector("#result-answer").innerHTML = answer
 
     // Submit answer to DB
-    const { error } = await supabase
-        .from('user_guesses')
-        .insert({ user_id: USER_ID, 
-                job_title: job.job.toLowerCase(), 
-                guess: choice, 
-                correct: isCorrect })
+    const result = await (await fetch(`${SERVER_URL}insert-guess`, {
+        method: "POST",
+        body: JSON.stringify({ 
+            user_id: USER_ID, 
+            guess:choice, 
+            job_title: job.job.toLowerCase(), 
+            correct: isCorrect 
+        }),
+    })).text()
 
     const loadingText = document.querySelector("#loading-text")
-    if (error) {
+    if (result != "done") {
         loadingText.style = 'color:red'
         loadingText.innerText = "Error saving data! See browser console for more info"
-        console.error(error)
     } else {
         loadingText.style.display = 'none'
     }
-    JOB_INDEX++
-    job = jobs_data[JOB_INDEX]
-    jobTitleElement.innerText = job.job
+
+    const isDone = (unanswered_job_data.length == JOB_INDEX + 1)
+    if (!isDone) {
+        JOB_INDEX++
+        job = unanswered_job_data[JOB_INDEX]
+        document.querySelector("#job-text").innerText = job.job
+        document.querySelector("#count-text").innerText = `${job_data.length - unanswered_job_data.length + JOB_INDEX} / ${job_data.length}`
+
+    }
 
     localStorage.setItem('results', JSON.stringify(storedResults))
     displayLocalAccuracy()
     
     document.querySelector("#next-btn").style.display = 'block'
-    document.querySelector("#next-btn").onclick = () => {        
+    document.querySelector("#next-btn").onclick = () => {      
+        
+        if (isDone) {
+            window.location.href = '/results.html'
+            return
+        }
+        
 
         document.querySelector("#question").style.display = 'flex'
         document.querySelector("#job-title").style.display = 'block'
@@ -120,4 +139,4 @@ function displayLocalAccuracy() {
 }
 
 
-computeGlobalAccuracy(supabase)
+computeGlobalAccuracy()

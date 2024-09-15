@@ -155,3 +155,14 @@ blockquote cite:before {
   -webkit-background-clip: text;
   color: transparent;
 }
+
+.button-primary {
+  background-color: #ffffff;
+  border:1px solid rgb(143, 143, 143);
+}
+.button-primary:hover { background-color: #ffffff; }
+
+.button-danger {
+  background-color: #ff5c5c;
+}
+.button-danger:hover { background-color: #ff5c5c; }

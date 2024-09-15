@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="./base.css">
+  <link rel="stylesheet" type="text/css" href="./base.css">
     <link rel="stylesheet" type="text/css" href="./results.css">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -14,6 +14,7 @@
   </head>
   <body>
     <div class="article">
+      <p><a href="/">🔙 home</a> </p>
       <p><a href="/game.html">🔙 to game</a> </p>
       <h1>
        Your results
@@ -22,6 +23,11 @@
       <p id="results-summary">
         
       </p>
+
+      <p>
+        Click on the column titles to sort the table.
+      </p>
+
       <div class="table-container">
         <table id="results-table-container">
             <thead>
@@ -37,7 +43,8 @@
     </div>
 
     <br/>
-    <button id="clear-btn">Clear data</button>
+    <button id="download-data-btn" class="button button-primary">Download data</button>
+    <button id="clear-btn" class="button button-danger">Clear data</button>
 
       
       <h1>Global results</h1>

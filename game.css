@@ -3,6 +3,7 @@
 }
 
 .red {
+    
     color: #f04747;
 }
 .blue {
@@ -107,4 +108,11 @@ body {
 }
 #top-bar-left p {
     margin:0px;
+}
+
+#count-text {
+    display: block;
+    font-size: 12px;
+    color: gray;
+    font-weight: 100;
 }

@@ -1,0 +1,17 @@
+{
+  "name": "shape-of-america-cloudflare-worker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy-worker": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "init-db": "wrangler d1 execute shape-of-america --file=./sql/init.sql",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.4.5",
+    "wrangler": "^3.60.3",
+    "vitest": "1.5.0"
+  }
+}

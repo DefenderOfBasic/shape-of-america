@@ -1,0 +1,128 @@
+[
+  {
+    "job": "Game Designer",
+    "percentBlue": 91.5,
+    "red_score": 0.7401299236495189,
+    "blue_score": 0.7459263478798351
+  },
+  {
+    "job": "Psychologist",
+    "percentBlue": 89.1,
+    "red_score": 0.7551875058826572,
+    "blue_score": 0.751120289560961
+  },
+  {
+    "job": "Scientist",
+    "percentBlue": 88.4,
+    "red_score": 0.7676641301691861,
+    "blue_score": 0.7670449566663619
+  },
+  {
+    "job": "Woodworker",
+    "percentBlue": 80.7,
+    "red_score": 0.7659247243746823,
+    "blue_score": 0.7545131464151359
+  },
+  {
+    "job": "Coach",
+    "percentBlue": 77.7,
+    "red_score": 0.7530298545920854,
+    "blue_score": 0.7511658368592433
+  },
+  {
+    "job": "Fire Fighter",
+    "percentBlue": 67.8,
+    "red_score": 0.7476456799193324,
+    "blue_score": 0.7476187938919313
+  },
+  {
+    "job": "Plumber",
+    "percentBlue": 57.1,
+    "red_score": 0.762323830534551,
+    "blue_score": 0.7618032707716001
+  },
+  {
+    "job": "Government Affairs Researcher",
+    "percentBlue": 54.8,
+    "red_score": 0.7830596283494112,
+    "blue_score": 0.7839878431410687
+  },
+  {
+    "job": "Tax Professional",
+    "percentBlue": 54.2,
+    "red_score": 0.7464732699712784,
+    "blue_score": 0.7349628825184281
+  },
+  {
+    "job": "Pharmacist",
+    "percentBlue": 52.4,
+    "red_score": 0.7410700602045179,
+    "blue_score": 0.7408552896744791
+  },
+  {
+    "job": "Custodian",
+    "percentBlue": 52.2,
+    "red_score": 0.7472713742161692,
+    "blue_score": 0.7557131764818402
+  },
+  {
+    "job": "Geophysicist",
+    "percentBlue": 51.1,
+    "red_score": 0.7449169483274957,
+    "blue_score": 0.7447067705430258
+  },
+  {
+    "job": "Soldier",
+    "percentBlue": 50.6,
+    "red_score": 0.7583306815283521,
+    "blue_score": 0.7680914861651172
+  },
+  {
+    "job": "Bus Driver",
+    "percentBlue": 48.7,
+    "red_score": 0.7357928950800537,
+    "blue_score": 0.7436253077809012
+  },
+  {
+    "job": "Funeral Director",
+    "percentBlue": 39.9,
+    "red_score": 0.7350920352760323,
+    "blue_score": 0.7417734923870799
+  },
+  {
+    "job": "Private Investigator",
+    "percentBlue": 39,
+    "red_score": 0.7442441678285049,
+    "blue_score": 0.7386612421043645
+  },
+  {
+    "job": "Mortgage Banker",
+    "percentBlue": 37.6,
+    "red_score": 0.7325408431156445,
+    "blue_score": 0.7428470599114976
+  },
+  {
+    "job": "Neurosurgeon",
+    "percentBlue": 34.9,
+    "red_score": 0.7445731013802412,
+    "blue_score": 0.7463130784658131
+  },
+  {
+    "job": "Chief Of Police",
+    "percentBlue": 33.3,
+    "red_score": 0.7424983025585175,
+    "blue_score": 0.752565442134845
+  },
+  {
+    "job": "Flight Instructor",
+    "percentBlue": 29.9,
+    "red_score": 0.7414283321446453,
+    "blue_score": 0.7418678032998304
+  },
+  {
+    "job": "Roofing Contractor",
+    "percentBlue": 12.4,
+    "red_score": 0.7643013845162838,
+    "blue_score": 0.7460712484338216
+  }
+]
