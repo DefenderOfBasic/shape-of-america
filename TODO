@@ -3,4 +3,7 @@ Todo
 - make table for results
 - link in github to the live results
 
+- "pending = true" when a new guess is made
+    - if it fails, try again to update it, then set pending = false
+
 - make a <meta> image for display links
