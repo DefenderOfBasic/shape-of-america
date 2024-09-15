@@ -1,5 +1,5 @@
 import { data } from './data/data'
-import { getPoliticalType } from './util'
+import { getPoliticalType, SERVER_URL } from './util'
 
 const jobsMap = {}
 for (let i = 0; i < data.length; i++) {
@@ -60,10 +60,46 @@ if (localStorage.getItem('results')) {
     resultsSummaryElement.textContent = 'No results found!'
 }
 
+async function getGlobalResults() {
+  const results = await (await fetch(`${SERVER_URL}global-tally`)).json()
+  const resultsTable = document.querySelector("#global-results-table")
+  for (let item of results) {
+    const { job_title, democrat, republican, mixed, answer } = item 
 
-function sortTable(columnIndex, asc = true) {
-    let table, rows, switching, i, x, y, shouldSwitch;
-    table = document.querySelector("#results-table-container");
+    let correctCount = democrat
+    if (answer == 'republican') correctCount = republican
+    if (answer == 'mixed') correctCount = mixed 
+    let accuracy = (correctCount) / (democrat + republican + mixed)
+    accuracy = Math.round(accuracy * 100)
+
+    const trNode = document.createElement("tr")
+    trNode.innerHTML = 
+        `<td>${job_title}</td>
+        <td>${democrat}</td>
+        <td>${republican}</td>
+        <td>${mixed}</td>
+        <td>${accuracy}%</td>`
+    resultsTable.appendChild(trNode)
+  }
+
+  
+  document.querySelector("#download-global-data-btn").onclick = () => {
+    const csvData = jsonToCSV(results);
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'shape-of-america-global-data.csv');
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+}
+
+getGlobalResults()
+
+
+function sortTable(columnIndex, table, asc = true) {
+    let rows, switching, i, x, y, shouldSwitch;
     switching = true;
 
     while (switching) {
@@ -72,8 +108,8 @@ function sortTable(columnIndex, asc = true) {
 
       for (i = 1; i < rows.length - 1; i++) {
         shouldSwitch = false;
-        x = rows[i].getElementsByTagName("td")[columnIndex];
-        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+        x = rows[i].getElementsByTagName("td")[columnIndex + 1];
+        y = rows[i + 1].getElementsByTagName("td")[columnIndex + 1];
 
         if (!asc) {
             let z = x 
@@ -81,7 +117,14 @@ function sortTable(columnIndex, asc = true) {
             y = z
         }
 
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        let strBool = x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()
+        let numBool = parseInt(x.innerHTML.toLowerCase()) > parseInt(y.innerHTML.toLowerCase())
+        let bool = strBool
+
+        if (parseInt(x.innerHTML)) {
+          bool = numBool
+        } 
+        if (bool) {
           shouldSwitch = true;
           break;
         }
@@ -94,14 +137,23 @@ function sortTable(columnIndex, asc = true) {
     }
 }
 
-document.querySelector("#results-table-container").querySelectorAll('th')
+const localTable = document.querySelector("#results-table-container")
+localTable.querySelectorAll('th')
 .forEach(th => th.addEventListener('click', ((e) => {
     if (window.column_toggled == undefined) window.column_toggled = {}
-    const idx = e.target.dataset.index
+    const idx = Number(e.target.dataset.index)
     window.column_toggled[idx] = !window.column_toggled[idx]
-    sortTable(idx, window.column_toggled[idx])
+    sortTable(idx, localTable, window.column_toggled[idx])
 })));
 
+const globalTable = document.querySelector("#global-results-table-container")
+globalTable.querySelectorAll('th')
+.forEach(th => th.addEventListener('click', ((e) => {
+    if (window.column_toggled_global == undefined) window.column_toggled_global = {}
+    const idx = Number(e.target.dataset.index)
+    window.column_toggled_global[idx] = !window.column_toggled_global[idx]
+    sortTable(idx, globalTable, window.column_toggled_global[idx])
+})));
 
 
 
