@@ -44,6 +44,12 @@ async function globalTally(request, env, ctx) {
 	await env.DB.prepare(`
 	SELECT * FROM job_data`).all();
 
+	// Add correct answer
+	for (let i = 0; i < results.length; i++) {
+		const item = results[i]
+		item.answer = jobsMap[item.job_title]
+	}
+
 	return Response.json(results, { headers: corsHeaders })
 }
 
