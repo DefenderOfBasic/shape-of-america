@@ -17,10 +17,34 @@ document.querySelector("#clear-btn").onclick = () => {
     }
 }
 
+const copyBtn = document.querySelector("#copy-btn") 
+copyBtn.onclick = () => {
+  navigator.clipboard.writeText(document.querySelector("#permalink-results").innerHTML)
+  copyBtn.innerHTML = '✅ Copied'
+
+  if (window.timeoutid) {
+    clearTimeout(window.timeoutid)
+    delete window.timeoutid
+  }
+  window.timeoutid = setTimeout(() => {
+    copyBtn.innerHTML = 'Copy'
+  }, 1000)
+}
+
 function getSummary(results, filterSearchTerm) {
   const filtered = results.guesses.filter(g => g.answer == filterSearchTerm)
   const correct_num = filtered.filter(g => g.correct).length
   return { total: filtered.length, correct: correct_num}
+}
+
+if (localStorage.getItem('user_id')) {
+  let currentUrl = window.location.href
+  currentUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+
+
+  const userId = localStorage.getItem('user_id')
+  document.querySelector("#permalink-results").innerHTML = 
+  `${currentUrl}/sharedata.html?userid=${userId}`
 }
 
 const resultsSummaryElement = document.querySelector("#results-summary")

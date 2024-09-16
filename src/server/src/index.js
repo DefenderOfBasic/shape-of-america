@@ -127,8 +127,8 @@ async function getUserData(request, env, ctx) {
 	const { user_id } = jsonBody
 
 	const { results } = await env.DB.prepare(
-		`SELECT * FROM user_guesses WHERE user_id = ${user_id}`,
-	).all();
+		`SELECT * FROM user_guesses WHERE user_id = ?`,
+	).bind(user_id).all();
 	return Response.json(results, { headers: corsHeaders })
 }
 

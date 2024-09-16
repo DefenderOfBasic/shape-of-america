@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./base.css">
+    <link rel="stylesheet" type="text/css" href="./results.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
+    <title>Shape of America</title>
+    <style>
+    </style>
+  </head>
+  <body>
+    <div class="article">
+      <p><a href="./">🔙 home</a> </p>
+      
+      <h1 id="loading">loading...</h1>
+
+      <div id="results-container" style="display: none;">
+        <h1>Results for user: <span id="user-id"></span></h1>
+        <p id="results-summary"></p>
+
+        <p>
+          Click on the column titles to sort the table.
+          </p>
+      
+          <div class="table-container">
+          <table id="results-table-container">
+              <thead>
+                  <tr>
+                      <th data-index=0>Job</th>
+                      <th data-index=1>Your guess</th>
+                      <th data-index=2>Answer</th>
+                  </tr>
+              </thead>
+              <tbody id="results-table">
+              </tbody>
+          </table>
+      </div>
+      <br/>
+      <button id="download-data-btn" class="button button-primary">Download data</button>
+
+      </div>
+      
+
+    </div>
+
+    <script type="module" src="./src/share-data.js"></script>
+  </body>
+</html>
