@@ -11,6 +11,7 @@ export default defineConfig({
         game: resolve(__dirname, 'game.html'),
         results: resolve(__dirname, 'results.html'),
         gotoinfinite: resolve(__dirname, 'gotoinfinite.html'),
+        sharedata: resolve(__dirname, 'sharedata.html'),
       },
     },
   },

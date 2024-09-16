@@ -60,7 +60,7 @@ displayLocalAccuracy()
 
 if (unanswered_job_data.length == 0) {
     // game is done! going to infinite mode
-    window.location.href = '/gotoinfinite.html'
+    window.location.href = 'gotoinfinite.html'
 }
 
 let job = unanswered_job_data[JOB_INDEX]
