@@ -28,3 +28,12 @@ CREATE TABLE job_data (
     mixed INTEGER,
     CONSTRAINT unique_job_title UNIQUE (job_title)
 );
+
+DROP TABLE IF EXISTS user_summary;
+CREATE TABLE user_summary (
+    user_id VARCHAR PRIMARY KEY,
+    total INTEGER,
+    correct INTEGER,
+    CONSTRAINT unique_user_id UNIQUE (user_id)
+);
+

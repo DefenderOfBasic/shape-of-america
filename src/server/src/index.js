@@ -20,6 +20,8 @@ const functionsForPaths = {
 	'/add-comment': addComment,
 	// '/global-accuracy': globalAccuracy,
 	'/global-tally': globalTally,
+	'/global-user-summary': globalUserSummary,
+	'/global-user-comments': globalUserComments,
 	// '/recount': recount
 }
 
@@ -42,7 +44,7 @@ export default {
 };
 
 // async function recount(request, env, ctx) {
-// 	// re-update job_data from user guesses
+// 	// re-update user_summary from user guesses
 // 	let { results } = await env.DB.prepare(
 // 		`SELECT * FROM user_guesses`,
 // 	).all();
@@ -50,20 +52,34 @@ export default {
 // 	const user_guesses = results 
 
 // 	for (let item of user_guesses) {
-// 		const { guess, job_title } = item
-// 		const valuesMap = { 'democrat': '1, 0, 0', 'republican': '0, 1, 0', 'mixed': '0, 0, 1'}
+// 		const { user_id, correct } = item
+		
 // 		await env.DB.prepare(`
-// 		INSERT INTO job_data (job_title, democrat, republican, mixed)
-// 		VALUES (?, ${valuesMap[guess]})
-// 		ON CONFLICT (job_title) 
-// 		DO UPDATE SET 
-// 			democrat = job_data.democrat + EXCLUDED.democrat,
-// 			republican = job_data.republican + EXCLUDED.republican,
-// 			mixed = job_data.mixed + EXCLUDED.mixed;`).bind( job_title ).run();
+// 			INSERT INTO user_summary (user_id, total, correct)
+// 			VALUES (?1, ?2, ?3)
+// 			ON CONFLICT (user_id) 
+// 			DO UPDATE SET 
+// 				total = user_summary.total + 1,
+// 				correct = user_summary.correct + ?3;`).bind( user_id, 1, correct ? 1 : 0 ).run();
 // 	}
 
 // 	return new Response("done", { headers: corsHeaders })
 // }
+
+async function globalUserSummary(request, env, ctx) {
+	const { results } = 
+	await env.DB.prepare(`
+	SELECT * FROM user_summary`).all();
+
+	return Response.json(results, { headers: corsHeaders })
+}
+async function globalUserComments(request, env, ctx) {
+	const { results } = 
+	await env.DB.prepare(`
+	SELECT * FROM user_guesses WHERE comment IS NOT NULL`).all();
+
+	return Response.json(results, { headers: corsHeaders })
+}
 
 async function globalTally(request, env, ctx) {
 	const { results } = 
@@ -137,6 +153,15 @@ async function insertGuess(request, env, ctx) {
 		democrat = job_data.democrat + EXCLUDED.democrat,
 		republican = job_data.republican + EXCLUDED.republican,
 		mixed = job_data.mixed + EXCLUDED.mixed;`).bind( job_title ).run();
+
+	// update user summary table
+	await env.DB.prepare(`
+		INSERT INTO user_summary (user_id, total, correct)
+		VALUES (?1, ?2, ?3)
+		ON CONFLICT (user_id) 
+		DO UPDATE SET 
+			total = user_summary.total + 1,
+			correct = user_summary.correct + ?3;`).bind( user_id, 1, correct ? 1 : 0 ).run();
 
 	return new Response("done", { headers: corsHeaders })
 }

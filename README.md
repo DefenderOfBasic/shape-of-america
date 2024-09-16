@@ -23,4 +23,6 @@ const data = await response.json()
 // [{ id: 2, job_title: 'cashier', answer: 'democrat', democrat: 12, republican: 6, mixed: 1 }, .. ]
 ```
 
-TODO: how to get the individual user guesses? 
+To get all user comments left on individual guesses, query `/global-user-comments`. For individual user stats, do `/global-user-summary`.
+
+I'd like to make the actual individual user guesses available too, what's an efficient way to do this? I can manually export the DB form CloudFlare and upload snapshots of that. Could automate this somehow?
