@@ -110,6 +110,9 @@ body {
 #top-bar-left p {
     margin:0px;
 }
+#top-bar-right {
+    min-width: 170px;
+}
 
 #count-text {
     display: block;

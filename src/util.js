@@ -12,23 +12,29 @@ const PROD_URL = 'https://shape-of-america-worker.defenderofbasic.workers.dev/'
 export const SERVER_URL = 
  isProd() ? PROD_URL : LOCAL_URL
 
+ function getSummary(results, filterSearchTerm) {
+    const filtered = results.guesses.filter(g => g.answer == filterSearchTerm)
+    const correct_num = filtered.filter(g => g.correct).length
+    return { total: filtered.length, correct: correct_num}
+  }
 
 export function computeLocalAccuracy() {
     const results = JSON.parse(localStorage.getItem('results'))
-    const accuracy = results.guesses.filter(g => g.correct).length / results.guesses.length
-    return accuracy
+    const guesses = results.guesses
+
+    for (let i = 0; i < guesses.length; i++) {
+        const currentGuess = guesses[i]
+        const { job_title } = currentGuess
+        const correctAnswer = jobsMap[job_title.toLowerCase()]
+        currentGuess.answer = correctAnswer
+    }
+    const democrat = getSummary(results, 'democrat')
+    const republican = getSummary(results, 'republican')
+    const mixed = getSummary(results, 'mixed')
+
+    const accuracy = guesses.filter(g => g.correct).length / results.guesses.length
+    return { accuracy, democrat, republican, mixed }
 }
-
-export async function computeGlobalAccuracy() {
-    const { correct, incorrect } = await (await fetch(`${SERVER_URL}global-accuracy`)).json()
-
-    const globalAccuracy = correct / (correct + incorrect)
-    if (globalAccuracy == undefined || isNaN(globalAccuracy)) return 
-    document.querySelector("#global-accuracy").innerText = Math.round(globalAccuracy * 100)
-
-    return globalAccuracy
-}
-
 export const MIXED_THRESHOLD = 55
 
 

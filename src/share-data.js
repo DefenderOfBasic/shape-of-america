@@ -22,7 +22,6 @@ async function init() {
             user_id: userId
         }),
     })).json()
-    console.log(results)
 
     document.querySelector("#user-id").innerText = userId
     document.querySelector("#results-container").style.display = 'block'

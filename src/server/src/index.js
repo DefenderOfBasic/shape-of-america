@@ -18,7 +18,7 @@ const functionsForPaths = {
 	'/user-count': getUsersCount,
 	'/insert-guess': insertGuess,
 	'/add-comment': addComment,
-	'/global-accuracy': globalAccuracy,
+	// '/global-accuracy': globalAccuracy,
 	'/global-tally': globalTally,
 	// '/recount': recount
 }
@@ -80,16 +80,16 @@ async function globalTally(request, env, ctx) {
 }
 
 
-async function globalAccuracy(request, env, ctx) {
-	const results = await env.DB.prepare(
-		`SELECT 
-			SUM(CASE WHEN correct = true THEN 1 ELSE 0 END) AS correct,
-			SUM(CASE WHEN correct = false THEN 1 ELSE 0 END) AS incorrect
-		FROM user_guesses;
-	`,
-	).first();
-	return Response.json(results, { headers: corsHeaders })
-}
+// async function globalAccuracy(request, env, ctx) {
+// 	const results = await env.DB.prepare(
+// 		`SELECT 
+// 			SUM(CASE WHEN correct = true THEN 1 ELSE 0 END) AS correct,
+// 			SUM(CASE WHEN correct = false THEN 1 ELSE 0 END) AS incorrect
+// 		FROM user_guesses;
+// 	`,
+// 	).first();
+// 	return Response.json(results, { headers: corsHeaders })
+// }
 
 async function addComment(request, env, ctx) {
 	const jsonBody = await request.json()

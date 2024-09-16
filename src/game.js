@@ -2,8 +2,7 @@ import { SERVER_URL } from './util'
 import job_data_subset from './data/final.json'
 import { full_data } from './data/augmented_data'
 
-import { computeLocalAccuracy, 
-    computeGlobalAccuracy, getPoliticalType,shuffle } from './util'
+import { computeLocalAccuracy, getPoliticalType,shuffle } from './util'
 
 let job_data = job_data_subset  
 const searchParams = new URLSearchParams(window.location.search);
@@ -81,16 +80,21 @@ async function submitResult(choice) {
 
     // Submit answer to DB
     const submittedJobTitle = job.job.toLowerCase()
-    const result = await (await fetch(`${SERVER_URL}insert-guess`, {
-        method: "POST",
-        body: JSON.stringify({ 
-            user_id: USER_ID, 
-            guess:choice, 
-            job_title: submittedJobTitle, 
-            correct: isCorrect 
-        }),
-    })).text()
-
+    let result;
+    try {
+        result = await (await fetch(`${SERVER_URL}insert-guess`, {
+            method: "POST",
+            body: JSON.stringify({ 
+                user_id: USER_ID, 
+                guess:choice, 
+                job_title: submittedJobTitle, 
+                correct: isCorrect 
+            }),
+        })).text()
+    } catch (e) {
+        console.log(e)
+    }
+    
     const loadingText = document.querySelector("#loading-text")
     if (result != "done") {
         loadingText.style = 'color:red'
@@ -149,11 +153,21 @@ document.querySelector("#mixed-btn").onclick = (e) => {
     submitResult("mixed")
 }
 
-function displayLocalAccuracy() {
-    const accuracy = computeLocalAccuracy()
-    if (!accuracy) return
-    document.querySelector("#your-accuracy").innerText = Math.round(accuracy * 100)
+function makePercent(num) {
+    const result = Math.round(num * 100)
+    if (isNaN(result)) {
+        return '_'
+    }
+    return result
 }
 
 
-computeGlobalAccuracy()
+
+function displayLocalAccuracy() {
+    const result = computeLocalAccuracy()
+    if (!result.accuracy) return
+    const { democrat, republican, mixed, accuracy } = result 
+    document.querySelector("#your-accuracy").innerText = 
+    `${makePercent(accuracy)}% - D (${makePercent(democrat.correct / democrat.total)}%) - R (${makePercent(republican.correct / republican.total)}%) - M (${makePercent(mixed.correct / mixed.total)}%)`
+    
+}
