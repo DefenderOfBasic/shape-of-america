@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 
+
     <title>Shape of America</title>
     <style>
       #title {
@@ -21,7 +22,7 @@
         color:gray;
       }
     </style>
-    <script type="module" crossorigin src="./assets/main.4f2d35aa.js"></script>
+    <script type="module" crossorigin src="./assets/main.149c3733.js"></script>
     <link rel="modulepreload" href="./assets/util.cc44b56e.js">
     <link rel="stylesheet" href="./assets/base.c2f4a4a5.css">
   </head>
@@ -56,6 +57,14 @@
       <a href="https://github.com/DefenderOfBasic/shape-of-america/">See GitHub repo</a> for data & source code.
     </p>
 
+    <h1>
+      Player distribution
+    </h1>
+
+    <p id="chart-loading">(loading...)</p>
+
+    <canvas id="chart"></canvas>
+
     <div id="your-data-container" style="display: none;">
       <hr/>
       <h1>
@@ -89,6 +98,7 @@
       </p>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     </div>
   </body>
