@@ -72,16 +72,21 @@ async function submitResult(choice) {
         <p style="color:gray" id="loading-text">saving data...</p>
         <button id="next-btn" class="button" style="display:none">Next</button>
     </center>
+    <h2 class="faded-text">
+        comment (optional)
+    </h2>
+    <textarea id="comment" rows="5" cols="33" placeholder="did you find this one surprising? why / why not?"></textarea>
     `
     document.querySelector("#result-answer").innerHTML = answer
 
     // Submit answer to DB
+    const submittedJobTitle = job.job.toLowerCase()
     const result = await (await fetch(`${SERVER_URL}insert-guess`, {
         method: "POST",
         body: JSON.stringify({ 
             user_id: USER_ID, 
             guess:choice, 
-            job_title: job.job.toLowerCase(), 
+            job_title: submittedJobTitle, 
             correct: isCorrect 
         }),
     })).text()
@@ -106,7 +111,22 @@ async function submitResult(choice) {
     displayLocalAccuracy()
     
     document.querySelector("#next-btn").style.display = 'block'
-    document.querySelector("#next-btn").onclick = () => {      
+    document.querySelector("#next-btn").onclick = async () => {  
+        // add comment if one is found
+        const comment = document.querySelector("#comment").value 
+        if (comment.length > 0) {
+            console.log("Submitting comment..")
+            const result = await (await fetch(`${SERVER_URL}add-comment`, {
+                method: "POST",
+                body: JSON.stringify({ 
+                    user_id: USER_ID, 
+                    job_title: submittedJobTitle, 
+                    comment: comment 
+                }),
+            })).text()
+            console.log("Submit comment result:", result)
+        }
+        
         if (isDone) {
             window.location.href = 'results.html'
             return

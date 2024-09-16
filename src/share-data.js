@@ -31,6 +31,19 @@ async function init() {
     ////////// display results in table
     displayResultsInTable(results)
 
+    // Download button
+    document.querySelector("#download-data-btn").onclick = () => {
+      const csvData = jsonToCSV(results);
+      const blob = new Blob([csvData], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'shape-of-america-user-data.csv');
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    /// Sort table
     const localTable = document.querySelector("#results-table-container")
     localTable.querySelectorAll('th')
     .forEach(th => th.addEventListener('click', ((e) => {

@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS user_guesses (
     user_id TEXT,
     job_title TEXT,
     guess TEXT,
-    correct BOOLEAN
+    correct BOOLEAN,
+    comment TEXT
 );
 
 DROP TABLE IF EXISTS job_metrics;

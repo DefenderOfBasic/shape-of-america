@@ -17,6 +17,7 @@ const functionsForPaths = {
 	'/user-data': getUserData, 
 	'/user-count': getUsersCount,
 	'/insert-guess': insertGuess,
+	'/add-comment': addComment,
 	'/global-accuracy': globalAccuracy,
 	'/global-tally': globalTally,
 	// '/recount': recount
@@ -88,6 +89,24 @@ async function globalAccuracy(request, env, ctx) {
 	`,
 	).first();
 	return Response.json(results, { headers: corsHeaders })
+}
+
+async function addComment(request, env, ctx) {
+	const jsonBody = await request.json()
+	const { user_id, job_title, comment } = jsonBody
+
+	if (!jobsMap[job_title]) {
+		const message = `Invalid job: ${job_title}`
+		return new Response(message, {status: 400, statusText: message })
+	}
+
+	await env.DB.prepare(`
+		UPDATE user_guesses 
+		SET comment = ?
+		WHERE user_id = ? AND job_title = ?;`)
+	.bind(comment, user_id, job_title).run();
+
+	return new Response("done", { headers: corsHeaders })
 }
 
 async function insertGuess(request, env, ctx) {
