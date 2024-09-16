@@ -6,8 +6,10 @@ import { computeLocalAccuracy, getPoliticalType,shuffle } from './util'
 
 let job_data = job_data_subset  
 const searchParams = new URLSearchParams(window.location.search);
+let isInfiniteMode = false
 if (searchParams.has('infinite')) {
     job_data = full_data
+    isInfiniteMode = true
 }
 
 if (!localStorage.getItem('user_id')) {
@@ -26,7 +28,10 @@ for (let i = 0; i <job_data.length; i++) {
     }
     unanswered_job_data.push(job_data[i])
 }
-shuffle(unanswered_job_data)
+if (isInfiniteMode) {
+    shuffle(unanswered_job_data)
+}
+
 
 const USER_ID = localStorage.getItem('user_id')
 let JOB_INDEX = 0
