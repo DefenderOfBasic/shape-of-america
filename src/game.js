@@ -32,6 +32,26 @@ if (isInfiniteMode) {
     shuffle(unanswered_job_data)
 }
 
+let globalAccuracyMap = {}
+async function getGlobalResults() {
+    const results = await (await fetch(`${SERVER_URL}global-tally`)).json()
+
+    for (let item of results) {
+        const { job_title, democrat, republican, mixed, answer } = item 
+        let correctCount = democrat
+        if (answer == 'republican') correctCount = republican
+        if (answer == 'mixed') correctCount = mixed 
+        let accuracy = (correctCount) / (democrat + republican + mixed)
+        let mostCommonAnswer = ''
+        if (democrat > republican && democrat > mixed) mostCommonAnswer = 'democrat'
+        if (republican > democrat && republican > mixed) mostCommonAnswer = 'republican'
+        if (mixed > democrat && mixed > republican) mostCommonAnswer = 'mixed'
+
+        globalAccuracyMap[job_title] = { accuracy: Math.round(accuracy * 100), mostCommonAnswer }
+    }
+}
+getGlobalResults()
+
 
 const USER_ID = localStorage.getItem('user_id')
 let JOB_INDEX = 0
@@ -64,11 +84,18 @@ async function submitResult(choice) {
 
     storedResults.guesses.push({ correct: isCorrect, job_title: job.job, guess: choice  })
 
-    let yourAnswer = isCorrect ? '' : `You answered: <span class="${className}">${choice}</span>. `
+    let yourAnswer = isCorrect ? '' : `<li>You answered: <span class="${className}">${choice}</span>.</li>`
+    const globalAccuracyMapItem = globalAccuracyMap[job.job.toLowerCase()]
+    const globalAccuracyMessage = globalAccuracyMapItem == undefined ? '' : 
+    `<li>${globalAccuracyMapItem.accuracy}% got this question correct. Most answered ${globalAccuracyMapItem.mostCommonAnswer}</li>` 
     
     let symbol = isCorrect ? '✅' : '❌'
     let answer = `<h1 class="centered">${symbol}</h1> 
-    <p class="centered">${yourAnswer}${job.job} is ${correctAnswer} (${percentBlue}% democrat, ${percentRed}% republican)</p>
+    <ul>
+        ${yourAnswer}
+        <li>${job.job} is ${correctAnswer} (${percentBlue}% democrat)</li>
+        ${globalAccuracyMessage}
+    </ul>
     <p class="centered" style="color:gray; font-size:10px;">
         (according to campaign contributions by job title, from the FEC)
     </p>
@@ -76,10 +103,6 @@ async function submitResult(choice) {
         <p style="color:gray" id="loading-text">saving data...</p>
         <button id="next-btn" class="button" style="display:none">Next</button>
     </center>
-    <h2 class="faded-text">
-        comment (optional)
-    </h2>
-    <textarea id="comment" rows="5" cols="33" placeholder="did you find this one surprising? why / why not?"></textarea>
     `
     document.querySelector("#result-answer").innerHTML = answer
 
@@ -122,19 +145,19 @@ async function submitResult(choice) {
     document.querySelector("#next-btn").style.display = 'block'
     document.querySelector("#next-btn").onclick = async () => {  
         // add comment if one is found
-        const comment = document.querySelector("#comment").value 
-        if (comment.length > 0) {
-            console.log("Submitting comment..")
-            const result = await (await fetch(`${SERVER_URL}add-comment`, {
-                method: "POST",
-                body: JSON.stringify({ 
-                    user_id: USER_ID, 
-                    job_title: submittedJobTitle, 
-                    comment: comment 
-                }),
-            })).text()
-            console.log("Submit comment result:", result)
-        }
+        // const comment = document.querySelector("#comment").value 
+        // if (comment.length > 0) {
+        //     console.log("Submitting comment..")
+        //     const result = await (await fetch(`${SERVER_URL}add-comment`, {
+        //         method: "POST",
+        //         body: JSON.stringify({ 
+        //             user_id: USER_ID, 
+        //             job_title: submittedJobTitle, 
+        //             comment: comment 
+        //         }),
+        //     })).text()
+        //     console.log("Submit comment result:", result)
+        // }
         
         if (isDone) {
             window.location.href = 'results.html'
