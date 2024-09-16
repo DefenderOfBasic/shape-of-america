@@ -99,7 +99,20 @@ async function plotPlayerDistribution() {
                 },
             },
           scales: {
+            x: {
+                title: {
+                    display:true,
+                    text: '% accuracy'
+                },
+            },
             y: {
+                ticks: {
+                    stepSize: 1
+                  },
+                title: {
+                    display:true,
+                    text: '# of players'
+                },
               beginAtZero: true
             }
           }
